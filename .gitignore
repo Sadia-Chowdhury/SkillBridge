@@ -1,0 +1,55 @@
+## Ignore Visual Studio temporary files, build results, and
+## user-generated files
+
+# Build results
+bin/
+obj/
+build/
+out/
+
+# Rider project files
+.idea/
+
+# Visual Studio files
+.vscode/
+.vs/
+*.user
+*.suo
+
+# ASP.NET Secrets (don’t share!)
+**/appsettings.Development.json
+secrets.json
+
+# Entity Framework Migrations (optional — keep if tracking)
+# Migrations/
+
+# Publish output
+publish/
+
+# User-specific files
+*.userprefs
+*.sln.docstates
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+
+# Others
+.env
+*.db
+*.bak
+*.zip
+*.tar.gz
+
+# GitHub Codespaces
+.gitpod.yml
+.devcontainer/
