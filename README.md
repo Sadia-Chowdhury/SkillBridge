@@ -1,2 +1,3 @@
 # SkillBridge
-A full-stack web application where recruiters can post jobs and developers can apply based on their skills. The platform supports role-based access (Admin, Recruiter, Developer) and is designed with real-world hiring functionality in mind.
+A role-based job portal built with ASP.NET Core MVC, Entity Framework Core, and Tailwind CSS, showcasing full-stack development with authentication, clean architecture, and real-world hiring features.
+
