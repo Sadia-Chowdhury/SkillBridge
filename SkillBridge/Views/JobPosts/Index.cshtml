@@ -1,66 +1,55 @@
 ﻿@model IEnumerable<SkillBridge.Models.JobPost>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Job Posts";
 }
 
-<h1>Index</h1>
+<div class="flex justify-between items-center my-6">
+    <h1 class="text-3xl font-semibold text-gray-800">All Job Posts</h1>
+    <a asp-action="Create" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        + Create New Job
+    </a>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.JobTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SkillsRequired)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostedDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SkillsRequired)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostedDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="overflow-x-auto">
+    <table class="min-w-full border border-gray-200 divide-y divide-gray-200 shadow-md rounded-lg">
+        <thead class="bg-gray-100 text-left text-sm font-semibold text-gray-700">
+            <tr>
+                <th class="px-4 py-3">Job Title</th>
+                <th class="px-4 py-3">Company</th>
+                <th class="px-4 py-3">Location</th>
+                <th class="px-4 py-3">Description</th>
+                <th class="px-4 py-3">Skills</th>
+                <th class="px-4 py-3">Posted</th>
+                <th class="px-4 py-3 text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 text-sm text-gray-800">
+            @foreach (var item in Model)
+            {
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-2">@item.JobTitle</td>
+                    <td class="px-4 py-2">@item.CompanyName</td>
+                    <td class="px-4 py-2">@item.Location</td>
+                    <td class="px-4 py-2">@item.Description</td>
+                    <td class="px-4 py-2">@item.SkillsRequired</td>
+                    <td class="px-4 py-2">@item.PostedDate.ToString("dd MMM yyyy")</td>
+                    <td class="px-4 py-2 text-center space-x-2">
+                        <a asp-action="Edit" asp-route-id="@item.Id"
+                           class="inline-block px-2 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 text-xs">
+                            Edit
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.Id"
+                           class="inline-block px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs">
+                            Details
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id"
+                           class="inline-block px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
