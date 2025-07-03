@@ -5,20 +5,28 @@ using SkillBridge.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Database connection
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+// Identity setup with ApplicationUser and Roles
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+})
+.AddRoles<IdentityRole>() // ? Add roles
+.AddEntityFrameworkStores<ApplicationDbContext>(); // ? Add DB context only once
 
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -34,7 +42,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();    // <--- THIS MUST BE PRESENT
+app.UseAuthentication(); // ? Required for login
 app.UseAuthorization();
 
 app.MapControllerRoute(
