@@ -12,7 +12,7 @@ namespace SkillBridge.Models
         public string Role { get; set; } = "Developer";
 
         // To store the full name of the user
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
 
         // To record when the user registered
         public DateTime JoinedDate { get; set; } = DateTime.Now;

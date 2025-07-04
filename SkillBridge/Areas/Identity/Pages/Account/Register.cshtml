@@ -1,0 +1,62 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
+        <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Create a new account</h2>
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="space-y-4">
+            <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm mb-4" role="alert"></div>
+
+            <!-- Email -->
+            <div>
+                <label asp-for="Input.Email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input asp-for="Input.Email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-300" autocomplete="username" aria-required="true" placeholder="you@example.com" />
+                <span asp-validation-for="Input.Email" class="text-red-500 text-xs"></span>
+            </div>
+
+            <!-- Password -->
+            <div>
+                <label asp-for="Input.Password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input asp-for="Input.Password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-300" autocomplete="new-password" aria-required="true" placeholder="••••••••" />
+                <span asp-validation-for="Input.Password" class="text-red-500 text-xs"></span>
+            </div>
+
+            <!-- Confirm Password -->
+            <div>
+                <label asp-for="Input.ConfirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                <input asp-for="Input.ConfirmPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-300" autocomplete="new-password" aria-required="true" placeholder="••••••••" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-red-500 text-xs"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select asp-for="Input.Role" class="form-control">
+                    <option value="Developer">Developer</option>
+                    <option value="Client">Client</option>
+                </select>
+                <label asp-for="Input.Role">Register as</label>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
+
+
+            <!-- Submit Button -->
+            <div>
+                <button id="registerSubmit" type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded">
+                    Register
+                </button>
+            </div>
+        </form>
+
+        <div class="text-sm text-gray-600 mt-6 text-center">
+            Already have an account?
+            <a asp-page="/Account/Login" class="text-indigo-600 hover:underline">Log in</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
