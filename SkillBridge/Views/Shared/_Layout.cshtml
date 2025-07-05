@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using SkillBridge.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -17,10 +22,33 @@
                 <div class="flex justify-between h-16 items-center">
                     <div class="flex items-center space-x-6">
                         <a asp-area="" asp-controller="Home" asp-action="Index" class="text-xl font-semibold text-blue-600">SkillBridge</a>
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="text-gray-700 hover:text-blue-600 text-sm">Home</a>
-                        <a asp-area="" asp-controller="JobPosts" asp-action="Index" class="text-gray-700 hover:text-blue-600 text-sm">Job Posts</a>
-                        <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-gray-700 hover:text-blue-600 text-sm">Privacy</a>
+
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            var user = await UserManager.GetUserAsync(User);
+                            var roles = await UserManager.GetRolesAsync(user);
+
+                            if (roles.Contains("Developer"))
+                            {
+                                <a asp-controller="Developer" asp-action="Dashboard" class="text-gray-700 hover:text-blue-600 text-sm">Dashboard</a>
+                                <a asp-controller="JobPost" asp-action="Index" class="text-gray-700 hover:text-blue-600 text-sm">Browse Jobs</a>
+                            }
+                            else if (roles.Contains("Client"))
+                            {
+                                <a asp-controller="Client" asp-action="Dashboard" class="text-gray-700 hover:text-blue-600 text-sm">Dashboard</a>
+                                <a asp-controller="JobPost" asp-action="Create" class="text-gray-700 hover:text-blue-600 text-sm">Post Job</a>
+                            }
+
+                            <a asp-controller="Home" asp-action="Privacy" class="text-gray-700 hover:text-blue-600 text-sm">Privacy</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Home" asp-action="Index" class="text-gray-700 hover:text-blue-600 text-sm">Home</a>
+                            <a asp-controller="JobPost" asp-action="Index" class="text-gray-700 hover:text-blue-600 text-sm">Jobs</a>
+                            <a asp-controller="Home" asp-action="Privacy" class="text-gray-700 hover:text-blue-600 text-sm">Privacy</a>
+                        }
                     </div>
+
                     <div>
                         <partial name="_LoginPartial" />
                     </div>
