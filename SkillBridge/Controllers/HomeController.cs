@@ -22,6 +22,8 @@ public class HomeController : Controller
         return View(jobs);  // pass the list of jobs to view
     }
 
+    public IActionResult AccessDenied() => View();
+    
     public IActionResult Privacy()
     {
         return View();
