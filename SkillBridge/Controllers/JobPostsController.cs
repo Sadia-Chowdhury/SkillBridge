@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SkillBridge.Data;
 using SkillBridge.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SkillBridge.Controllers
 {
@@ -14,10 +16,14 @@ namespace SkillBridge.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public JobPostsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public JobPostsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
 
         // GET: JobPosts
         public async Task<IActionResult> Index()
@@ -44,24 +50,32 @@ namespace SkillBridge.Controllers
         }
 
         // GET: JobPosts/Create
+        [Authorize(Roles = "Client")]
         public IActionResult Create()
         {
             return View();
         }
+
 
         // POST: JobPosts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,JobTitle,CompanyName,Location,Description,SkillsRequired,PostedDate")] JobPost jobPost)
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> Create(JobPost jobPost)
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(User); // inject UserManager in constructor
+                jobPost.ClientId = user.Id;
+                jobPost.PostedDate = DateTime.Now;
+
                 _context.Add(jobPost);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(jobPost);
         }
 

@@ -1,63 +1,52 @@
 ﻿@model SkillBridge.Models.JobPost
-
 @{
-    ViewData["Title"] = "Create Job Post";
+    ViewData["Title"] = "Post a Job";
 }
 
-<div class="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg mt-8">
-    <h1 class="text-2xl font-bold text-gray-800 mb-4">Create a New Job Post</h1>
-    <form asp-action="Create" class="space-y-6">
-        <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm"></div>
+<h2 class="text-2xl font-semibold mb-4">Post a New Job</h2>
 
-        <div>
-            <label asp-for="JobTitle" class="block font-medium text-gray-700">Job Title</label>
-            <input asp-for="JobTitle" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="JobTitle" class="text-red-500 text-sm"></span>
-        </div>
+<form asp-action="Create" method="post" class="space-y-4">
+    <div>
+        <label asp-for="JobTitle" class="block text-sm font-medium">Job Title</label>
+        <input asp-for="JobTitle" class="form-input w-full rounded border-gray-300 mt-1" />
+        <span asp-validation-for="JobTitle" class="text-red-500 text-sm"></span>
+    </div>
 
-        <div>
-            <label asp-for="CompanyName" class="block font-medium text-gray-700">Company Name</label>
-            <input asp-for="CompanyName" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="CompanyName" class="text-red-500 text-sm"></span>
-        </div>
+    <div>
+        <label asp-for="CompanyName" class="block text-sm font-medium">Company Name</label>
+        <input asp-for="CompanyName" class="form-input w-full rounded border-gray-300 mt-1" />
+        <span asp-validation-for="CompanyName" class="text-red-500 text-sm"></span>
+    </div>
 
-        <div>
-            <label asp-for="Location" class="block font-medium text-gray-700">Location</label>
-            <input asp-for="Location" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="Location" class="text-red-500 text-sm"></span>
-        </div>
+    <div>
+        <label asp-for="Location" class="block text-sm font-medium">Location</label>
+        <input asp-for="Location" class="form-input w-full rounded border-gray-300 mt-1" />
+        <span asp-validation-for="Location" class="text-red-500 text-sm"></span>
+    </div>
 
-        <div>
-            <label asp-for="Description" class="block font-medium text-gray-700">Description</label>
-            <textarea asp-for="Description" rows="4" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-            <span asp-validation-for="Description" class="text-red-500 text-sm"></span>
-        </div>
+    <div>
+        <label asp-for="SkillsRequired" class="block text-sm font-medium">Required Skills</label>
+        <input asp-for="SkillsRequired" class="form-input w-full rounded border-gray-300 mt-1" />
+        <span asp-validation-for="SkillsRequired" class="text-red-500 text-sm"></span>
+    </div>
 
-        <div>
-            <label asp-for="SkillsRequired" class="block font-medium text-gray-700">Skills Required</label>
-            <input asp-for="SkillsRequired" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="SkillsRequired" class="text-red-500 text-sm"></span>
-        </div>
+    <div>
+        <label asp-for="Description" class="block text-sm font-medium">Job Description</label>
+        <textarea asp-for="Description" class="form-textarea w-full rounded border-gray-300 mt-1"></textarea>
+        <span asp-validation-for="Description" class="text-red-500 text-sm"></span>
+    </div>
 
-        <div>
-            <label asp-for="PostedDate" class="block font-medium text-gray-700">Posted Date</label>
-            <input asp-for="PostedDate" type="date" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="PostedDate" class="text-red-500 text-sm"></span>
-        </div>
+    <div>
+        <label asp-for="Deadline" class="block text-sm font-medium">Deadline</label>
+        <input asp-for="Deadline" type="date" class="form-input w-full rounded border-gray-300 mt-1" />
+        <span asp-validation-for="Deadline" class="text-red-500 text-sm"></span>
+    </div>
 
-        <div class="flex items-center justify-between">
-            <button type="submit"
-                    class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-                Submit
-            </button>
-
-            <a asp-action="Index" class="text-sm text-gray-600 hover:underline">← Back to Job List</a>
-        </div>
-    </form>
-</div>
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        Post Job
+    </button>
+</form>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }
