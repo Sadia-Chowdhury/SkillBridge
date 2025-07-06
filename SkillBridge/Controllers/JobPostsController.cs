@@ -73,6 +73,9 @@ namespace SkillBridge.Controllers
 
                 _context.Add(jobPost);
                 await _context.SaveChangesAsync();
+
+                TempData["Success"] = "Job posted successfully!";
+
                 return RedirectToAction(nameof(Index));
             }
 

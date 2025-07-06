@@ -31,12 +31,12 @@
                             if (roles.Contains("Developer"))
                             {
                                 <a asp-controller="Developer" asp-action="Dashboard" class="text-gray-700 hover:text-blue-600 text-sm">Dashboard</a>
-                                <a asp-controller="JobPost" asp-action="Index" class="text-gray-700 hover:text-blue-600 text-sm">Browse Jobs</a>
+                                <a asp-controller="JobPosts" asp-action="Index" class="text-gray-700 hover:text-blue-600 text-sm">Browse Jobs</a>
                             }
                             else if (roles.Contains("Client"))
                             {
                                 <a asp-controller="Client" asp-action="Dashboard" class="text-gray-700 hover:text-blue-600 text-sm">Dashboard</a>
-                                <a asp-controller="JobPost" asp-action="Create" class="text-gray-700 hover:text-blue-600 text-sm">Post Job</a>
+                                <a asp-controller="JobPosts" asp-action="Create" class="text-gray-700 hover:text-blue-600 text-sm">Post Job</a>
                             }
 
                             <a asp-controller="Home" asp-action="Privacy" class="text-gray-700 hover:text-blue-600 text-sm">Privacy</a>

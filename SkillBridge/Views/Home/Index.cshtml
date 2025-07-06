@@ -1,12 +1,27 @@
 ﻿@model IEnumerable<SkillBridge.Models.JobPost>
 
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+
 @{
     ViewData["Title"] = "Job Listings";
+    var isDeveloper = User.IsInRole("Developer") && SignInManager.IsSignedIn(User);
 }
 
 <h1 class="text-3xl font-bold text-center text-blue-600 my-6">All Job Posts</h1>
-
-<
+@if (TempData["Success"] != null)
+{
+    <div class="bg-green-100 text-green-800 border border-green-300 p-3 rounded mb-4 text-center">
+        @TempData["Success"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="bg-red-100 text-red-800 border border-red-300 p-3 rounded mb-4 text-center">
+        @TempData["Error"]
+    </div>
+}
 
 <div class="overflow-x-auto">
     <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -30,12 +45,21 @@
                     <td class="px-4 py-3">@item.SkillsRequired</td>
                     <td class="px-4 py-3">@item.PostedDate.ToShortDateString()</td>
                     <td class="px-4 py-3 flex justify-center space-x-2">
-                        <a asp-action="Edit" asp-route-id="@item.Id"
-                           class="text-sm px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.Id"
-                           class="text-sm px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id"
-                           class="text-sm px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Delete</a>
+                        <a asp-controller="JobPosts" asp-action="Details" asp-route-id="@item.Id"
+                           class="text-sm px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                            Details
+                        </a>
+
+                        @if (User.IsInRole("Developer"))
+                        {
+                            <form asp-controller="Applications" asp-action="Apply" method="post" class="inline">
+                                <input type="hidden" name="jobPostId" value="@item.Id" />
+                                <button type="submit"
+                                        class="text-sm px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700">
+                                    Apply
+                                </button>
+                            </form>
+                        }
                     </td>
                 </tr>
             }

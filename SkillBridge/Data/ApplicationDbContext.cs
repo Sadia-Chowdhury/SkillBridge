@@ -12,5 +12,7 @@ namespace SkillBridge.Data
         }
 
         public DbSet<JobPost> JobPosts { get; set; }
+        public DbSet<JobApplication> JobApplications { get; set; }
+
     }
 }

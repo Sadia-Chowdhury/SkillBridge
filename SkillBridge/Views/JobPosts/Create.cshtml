@@ -6,6 +6,7 @@
 <h2 class="text-2xl font-semibold mb-4">Post a New Job</h2>
 
 <form asp-action="Create" method="post" class="space-y-4">
+    @Html.AntiForgeryToken()
     <div>
         <label asp-for="JobTitle" class="block text-sm font-medium">Job Title</label>
         <input asp-for="JobTitle" class="form-input w-full rounded border-gray-300 mt-1" />
