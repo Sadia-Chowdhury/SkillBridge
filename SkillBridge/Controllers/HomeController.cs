@@ -1,39 +1,60 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using SkillBridge.Data;
 using SkillBridge.Models;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
-namespace SkillBridge.Controllers
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly ILogger<HomeController> _logger;
+    private readonly ApplicationDbContext _context;
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _context;
+        _logger = logger;
+        _context = context;
+        _userManager = userManager;
+    }
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+    public async Task<IActionResult> Index()
+    {
+        var jobs = await _context.JobPosts.ToListAsync();
+        return View(jobs);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Developer")]
+    public async Task<IActionResult> Apply(int id)  // id = JobPostId
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        // Check if already applied
+        var alreadyApplied = await _context.JobApplications
+            .AnyAsync(a => a.JobPostId == id && a.DeveloperId == user.Id);
+
+        if (!alreadyApplied)
         {
-            _logger = logger;
-            _context = context;
+            var application = new JobApplication
+            {
+                JobPostId = id,
+                DeveloperId = user.Id
+            };
+
+            _context.JobApplications.Add(application);
+            await _context.SaveChangesAsync();
         }
 
-        // Show all job posts on the landing page
-        public async Task<IActionResult> Index()
-        {
-            var jobs = await _context.JobPosts.ToListAsync();
-            return View(jobs);
-        }
+        return RedirectToAction(nameof(Index));
+    }
 
-        public IActionResult AccessDenied() => View();
+    public IActionResult Privacy() => View();
 
-        public IActionResult Privacy() => View();
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

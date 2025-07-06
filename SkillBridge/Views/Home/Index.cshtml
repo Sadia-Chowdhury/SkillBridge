@@ -50,12 +50,11 @@
                             Details
                         </a>
 
-                        @if (User.IsInRole("Developer"))
+                        @if (isDeveloper)
                         {
-                            <form asp-controller="Applications" asp-action="Apply" method="post" class="inline">
-                                <input type="hidden" name="jobPostId" value="@item.Id" />
-                                <button type="submit"
-                                        class="text-sm px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700">
+                            <form asp-action="Apply" method="post" class="inline">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="text-sm px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">
                                     Apply
                                 </button>
                             </form>
